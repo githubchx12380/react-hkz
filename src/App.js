@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { HashRouter,Switch,Route,Redirect }  from 'react-router-dom'
+
+import Home from '../src/view/Home'
+import SelectCity from '../src/view/SelectCity'
+import MapFound from '../src/view/Mapfound'
+import NotPage from '../src/view/NotPage'
+
+class App extends React.Component {
+  render() {
+    return (
+     <div className="App">
+       <HashRouter>
+         <Switch>
+           <Route exact path="/">
+              <Redirect to="/home">
+              </Redirect>
+           </Route>
+           <Route path="/home" component={Home}></Route>
+           <Route path="/selectcity" component={SelectCity}></Route>
+           <Route path="/mapfound" component={MapFound}></Route>
+           <Route exact component={NotPage}></Route>
+         </Switch>
+       </HashRouter>
+     </div>
+    )
+  }
 }
-
 export default App;
