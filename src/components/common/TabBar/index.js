@@ -2,22 +2,13 @@ import React from 'react'
 import { TabBar } from 'antd-mobile';
 
 class TabBarExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: 'redTab',
-      hidden: false,
-    };
-  }
-
-  renderContent(pageText) {
-    return (
-        <>
-        </>
-    );
-  }
-
+  state = {
+    selectedTab: 'redTab',
+    hidden: false,
+  };
   render() {
+    const history = this.props.history
+    const pathname = this.props.location.pathname
     return (
       <div style={{position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
@@ -30,42 +21,30 @@ class TabBarExample extends React.Component {
             key="Life"
             icon={ <i className="iconfont icon-ind" /> }
             selectedIcon={ <i className="iconfont icon-ind" /> }
-            selected
-            onPress={() => {
-              this.setState({
-                selectedTab: 'blueTab',
-              });
-            }}
+            selected={pathname === '/home/index'}
+            onPress={() => {history.push('/home/index')}}
           >
-            {this.renderContent('Life')}
+            
           </TabBar.Item>
           <TabBar.Item
             title="找房"
             key="Middle"
             icon={ <i className="iconfont icon-findHouse" /> }
             selectedIcon={ <i className="iconfont icon-findHouse" /> }
-            selected
-            onPress={() => {
-              this.setState({
-                selectedTab: 'blueTab',
-              });
-            }}
+            selected={pathname === '/home/found'}
+            onPress={() => {history.push('/home/found')}}
           >
-            {this.renderContent('Middle')}
+            
           </TabBar.Item>
           <TabBar.Item
-            title="找房"
+            title="我的"
             key="Right"
             icon={ <i className="iconfont icon-my" /> }
             selectedIcon={ <i className="iconfont icon-my" /> }
-            selected
-            onPress={() => {
-              this.setState({
-                selectedTab: 'blueTab',
-              });
-            }}
+            selected={pathname === '/home/my'}
+            onPress={() => {history.push('/home/my')}}
           >
-            {this.renderContent('Right')}
+          
           </TabBar.Item>
         </TabBar>
       </div>
