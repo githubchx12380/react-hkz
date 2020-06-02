@@ -1,11 +1,13 @@
 import React from 'react'
 
+import Swiper from '../../../components/common/Swiper'
+
 class Index extends React.Component {
     state = {  }
     render() { 
         return ( 
             <div>
-                我是index啊
+                <Swiper />
             </div>
          );
     }
