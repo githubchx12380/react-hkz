@@ -10,7 +10,7 @@ class TabBarExample extends React.Component {
     const history = this.props.history
     const pathname = this.props.location.pathname
     return (
-      <div style={{position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+      <div style={{position: 'fixed', bottom:0,left:0,right:0 }}>
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#21b97a"
