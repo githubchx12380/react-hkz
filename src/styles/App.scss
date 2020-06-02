@@ -3,3 +3,11 @@
 
 //css3全局变量
 @import './variable.scss';
+
+//ico
+@import '../assets/fonts/iconfont.css';
+
+body {
+    color: var(--color-font);
+}
+  

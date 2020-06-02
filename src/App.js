@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './styles/App.scss';
+
 import { HashRouter,Switch,Route,Redirect }  from 'react-router-dom'
 
 import Home from '../src/view/Home'
