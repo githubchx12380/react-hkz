@@ -7,7 +7,7 @@ import { Home_Swiper } from '../../../api/Home'
 class Swiper extends React.Component {
   state = {
     data: [],
-    imgHeight: '48.889vw',  
+    imgHeight: '56.53vw',  
   }
   componentDidMount() {
     Home_Swiper().then(res => {
@@ -17,7 +17,7 @@ class Swiper extends React.Component {
   render() {
     const swiper_data = this.state.data
     return (
-        <div>
+        <div style={{height:this.state.imgHeight}}>
           { !!swiper_data.length && 
            <Carousel
               autoplay

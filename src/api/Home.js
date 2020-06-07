@@ -6,3 +6,11 @@ export const Home_Swiper = () => {
         url:'/home/swiper',
     })
 }
+
+
+//group 
+export const group_Data = () => {
+    return request({
+        url:'/home/groups?area=AREA%7C88cff55c-aaa4-e2e0'
+    })
+}
