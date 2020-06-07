@@ -1,15 +1,17 @@
 import React from 'react'
 
 import Swiper from '../../../components/common/Swiper'
+import SearchInput from '../../../components/common/searchInput'
 
 import styles from './index.module.scss'
+
 
 import Nav1 from '../../../assets/images/nav-1.png'
 import Nav2 from '../../../assets/images/nav-2.png'
 import Nav3 from '../../../assets/images/nav-3.png'
 import Nav4 from '../../../assets/images/nav-4.png'
 
-import { group_Data } from '../../../api/Home'
+import { group_Data,get_newsData } from '../../../api/Home'
 import request from '../../../request'
 class Index extends React.Component {
     state = { 
@@ -19,10 +21,12 @@ class Index extends React.Component {
             {id:3,title:'地图找房',img:Nav3},
             {id:4,title:'去出租',img:Nav4},
         ],
-        group:[]
+        group:[],
+        news:[]
     }
     componentDidMount() {
         this.get_groupData()
+        this.get_newsData()
     }
     //获取group数据
     get_groupData() {
@@ -30,11 +34,20 @@ class Index extends React.Component {
             this.setState({group:res.data.body})
         })
     }
+    //获取最新资讯
+    get_newsData() {
+        get_newsData().then(res => {
+            console.log(res);
+            
+            this.setState({news:res.data.body})
+        })
+    }
     render() { 
-        const { group,menu }  = this.state
+        const { group,menu,news }  = this.state
        
         return ( 
             <div>
+                <SearchInput />
                 <Swiper />
                 <div className={styles.menu_parent}>
                     {menu.map((item) => {
@@ -64,6 +77,28 @@ class Index extends React.Component {
                         }
                         
                     </div>
+                </div>
+                <div className={styles.news}>
+                    <div>
+                        <h3>最新资讯</h3>
+                    </div>
+                    {
+                        news.map(item =>  <div key={item.id} className={styles.news_item}>
+                            <div>
+                                <img src={request.defaults.baseURL + item.imgSrc}  alt=""/>
+                            </div>
+                            <div className={styles.news_content}>
+                                <h4>
+                                    {item.title}
+                                </h4>
+                                <div className={styles.news_site}>
+                                    <span>{item.from}</span>
+                                    <span>{item.date}</span>
+                                </div>
+                            </div>
+                        </div>)
+                    }
+                   
                 </div>
             </div>
          );

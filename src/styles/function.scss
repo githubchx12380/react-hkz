@@ -1,0 +1,5 @@
+$baseWidth: 375;
+
+@function vw($px) {
+    @return $px / $baseWidth * 100vw;
+}
