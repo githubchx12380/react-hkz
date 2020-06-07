@@ -1,19 +1,20 @@
+@import '../../../styles//function.scss';
 .search_input {
-    padding: 25px 20px;
+    padding: vw(25) vw(20);
     display: flex;
     background-color:transparent;
     position: absolute;
     width: 100%;
     z-index: 1;
     .search_left {
-        padding: 10px 0 10px 10px;
+        padding: vw(10) 0 vw(10) vw(10);
         color: #666;
-        width: 60px;
+        width: vw(60);
         background-color: white;
         display: flex;
         align-items: center;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-top-left-radius: vw(3);
+        border-bottom-left-radius: vw(3);
     }
   
     .search_ipt {
@@ -22,21 +23,21 @@
         align-items: center;
         flex: 1;
         color: #ccc;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-right-radius: vw(3);
+        border-bottom-right-radius: vw(3);
         i{
-            margin: 0 10px;
+            margin: 0 vw(10);
         }
     }
   
     .search_right {
         display: flex;
         align-items: center;
-        padding: 0 5px;
+        padding: 0 vw(5);
         color: white;
-        width: 26px;
+        width: vw(26);
         i{
-            font-size: 26px;
+            font-size: vw(26);
             
         }
     }
