@@ -11,17 +11,19 @@ import handleData from './handleData'
 
 class SelectCity extends React.Component {
     state = {
-        citylist:[]
+        citylist: []
     }
     componentDidMount() {
         //获取城市列表
         handleData(this.props.city).then(res => {
-            this.setState({citylist:res})
+            this.setState({ citylist: res })
         })
     }
     render() {
-        const { history }  = this.props
+        const { history } = this.props
         const { citylist } = this.state
+        console.log(citylist);
+        
         return (
             <div className={styles.SelectCity}>
                 <NavBar
@@ -31,15 +33,15 @@ class SelectCity extends React.Component {
                 >选择城市</NavBar>
                 <div>
                     {
-                        citylist.map((item,index) => {
-                            return <div key={index}>{item.title}
-                                {
-                                        item.children.map((child,childindex) => {
-                                        return <div key={childindex}>{child.city}</div>
-                                        })
-                                }
+                        citylist.map((item, index) => {
+                            return <div>
+                                <div  className={styles.title_style} key={index}>{item.title}</div>
+                               {
+                                    item.children.map((child, childindex) => {
+                                      return <div key={childindex} className={styles.item_style} >{child.city}</div>
+                                    })
+                               }
                             </div>
-                            
                         })
                     }
                 </div>
@@ -48,9 +50,9 @@ class SelectCity extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {    
+const mapStateToProps = (state) => {
     return {
-        city:state.city.citylist.city
+        city: state.city.citylist.city
     }
 }
 

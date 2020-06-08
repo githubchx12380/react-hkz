@@ -1,7 +1,18 @@
+@import '../../styles/function.scss';
 .SelectCity{
     :global{
         .am-navbar-light{
             background-color: #eee;
         }
+    }
+    .title_style{
+        padding: vw(10) vw(15);
+        color: #aaa;
+    }
+    .item_style{
+        color: black;
+        line-height: 50px;
+        border-bottom:1px solid #ddd;
+        padding: 0 vw(15);
     }
 }

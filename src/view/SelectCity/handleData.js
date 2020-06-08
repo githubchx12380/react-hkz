@@ -16,7 +16,9 @@ const handleData = (dqcity) => {
             children:cityHot.map(v => ({city:v.label}))
         })        
         const newList = (await get_citylist()).data.body
+        
         newList.sort((a,b) => a.short > b.short ? 1 : -1)        
+        
         newList.forEach(item => {
             const faont = item.short.charAt(0).toUpperCase()
             const index = cityList.findIndex(item => {
@@ -27,12 +29,12 @@ const handleData = (dqcity) => {
                     title:faont,
                     children:[{city:item.label}]
                 })
-            }else{
-                cityList[index].children.push({city:item.label})
             }
-
-            
+            else{   
+                cityList[index].children.push({city:item.label})
+            }            
         })        
+        
        resolve(cityList)
     })
 }
