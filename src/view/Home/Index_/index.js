@@ -13,6 +13,7 @@ import Nav4 from '../../../assets/images/nav-4.png'
 
 import { group_Data,get_newsData } from '../../../api/Home'
 import request from '../../../request'
+
 class Index extends React.Component {
     state = { 
         menu:[

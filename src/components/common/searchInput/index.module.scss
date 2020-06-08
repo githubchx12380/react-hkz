@@ -1,8 +1,7 @@
 @import '../../../styles//function.scss';
 .search_input {
-    padding: vw(25) vw(20);
+    padding: vw(25) 0 0 vw(20);
     display: flex;
-    background-color:transparent;
     position: absolute;
     width: 100%;
     z-index: 1;
@@ -33,9 +32,10 @@
     .search_right {
         display: flex;
         align-items: center;
+        justify-content: center;
         padding: 0 vw(5);
         color: white;
-        width: vw(26);
+        width: vw(40);
         i{
             font-size: vw(26);
             
