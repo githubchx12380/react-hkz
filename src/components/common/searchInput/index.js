@@ -2,12 +2,15 @@ import React from 'react'
 
 import styles from './index.module.scss'
 
-export default class SearchInput extends React.Component {
+import { withRouter } from 'react-router-dom'
+
+class SearchInput extends React.Component {
     render() {
+        const { city } = this.props
         return (
                 <div className={styles.search_input}>
-                    <div className={styles.search_left}>
-                        <span>广州</span>
+                    <div className={styles.search_left} onClick={() => this.props.history.push('/citylist')}>
+                        <span>{city.replace(/市$/,'')}</span>
                         <i className="iconfont icon-arrow"></i>
                     </div>
                     <div className={styles.search_ipt}>
@@ -21,3 +24,5 @@ export default class SearchInput extends React.Component {
         )
     }
 }
+
+export default withRouter(SearchInput)

@@ -5,6 +5,7 @@ import SearchInput from '../../../components/common/searchInput'
 
 import styles from './index.module.scss'
 
+import { connect } from 'react-redux'
 
 import Nav1 from '../../../assets/images/nav-1.png'
 import Nav2 from '../../../assets/images/nav-2.png'
@@ -45,65 +46,73 @@ class Index extends React.Component {
     }
     render() { 
         const { group,menu,news }  = this.state
-       
+        const { city } = this.props
         return ( 
-            <div>
-                <SearchInput />
-                <Swiper />
-                <div className={styles.menu_parent}>
-                    {menu.map((item) => {
-                    return <div key={item.id} className={styles.menu_item}>
-                                <img src={item.img} alt=""/>
-                                <span>{item.title}</span>
-                            </div>
-                    })}
-                </div>
-                <div className={styles.group}>
-                    <div className={styles.group_title}>
-                        <h3>租房小组</h3>
-                        <span>更多</span>
-                    </div>
-                    <div className={styles.group_parent}>
-                        {
-                            group.map(item =>
-                             <div key={item.id} className={styles.group_item}>
-                                <div className={styles.content}>
-                                <h3>{item.title}</h3>
-                                <p>{item.desc}</p>
-                                    </div>
-                                    <div>
-                                        <img style={{width:'53px'}} src={request.defaults.baseURL + item.imgSrc} alt=""/>
-                                    </div>
-                             </div>)
-                        }
-                        
-                    </div>
-                </div>
-                <div className={styles.news}>
-                    <div>
-                        <h3>最新资讯</h3>
-                    </div>
-                    {
-                        news.map(item =>  <div key={item.id} className={styles.news_item}>
-                            <div>
-                                <img src={request.defaults.baseURL + item.imgSrc}  alt=""/>
-                            </div>
-                            <div className={styles.news_content}>
-                                <h4>
-                                    {item.title}
-                                </h4>
-                                <div className={styles.news_site}>
-                                    <span>{item.from}</span>
-                                    <span>{item.date}</span>
-                                </div>
-                            </div>
-                        </div>)
-                    }
-                   
-                </div>
-            </div>
+           <div>
+               {
+                   city &&  <div>
+                   <SearchInput city={city} />
+                   <Swiper />
+                   <div className={styles.menu_parent}>
+                       {menu.map((item) => {
+                       return <div key={item.id} className={styles.menu_item}>
+                                   <img src={item.img} alt=""/>
+                                   <span>{item.title}</span>
+                               </div>
+                       })}
+                   </div>
+                   <div className={styles.group}>
+                       <div className={styles.group_title}>
+                           <h3>租房小组</h3>
+                           <span>更多</span>
+                       </div>
+                       <div className={styles.group_parent}>
+                           {
+                               group.map(item =>
+                                <div key={item.id} className={styles.group_item}>
+                                   <div className={styles.content}>
+                                   <h3>{item.title}</h3>
+                                   <p>{item.desc}</p>
+                                       </div>
+                                       <div>
+                                           <img style={{width:'53px'}} src={request.defaults.baseURL + item.imgSrc} alt=""/>
+                                       </div>
+                                </div>)
+                           }
+                           
+                       </div>
+                   </div>
+                   <div className={styles.news}>
+                       <div>
+                           <h3>最新资讯</h3>
+                       </div>
+                       {
+                           news.map(item =>  <div key={item.id} className={styles.news_item}>
+                               <div>
+                                   <img src={request.defaults.baseURL + item.imgSrc}  alt=""/>
+                               </div>
+                               <div className={styles.news_content}>
+                                   <h4>
+                                       {item.title}
+                                   </h4>
+                                   <div className={styles.news_site}>
+                                       <span>{item.from}</span>
+                                       <span>{item.date}</span>
+                                   </div>
+                               </div>
+                           </div>)
+                       }
+                      
+                   </div>
+               </div>
+               }
+           </div>
          );
     }
 }
- 
-export default Index;
+const mapStateToProps = (state) => {
+    return {
+        city:state.city.citylist.city
+    }
+}
+export default  connect(mapStateToProps)(Index);
