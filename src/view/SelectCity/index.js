@@ -2,11 +2,11 @@ import React from 'react';
 
 import { NavBar, Icon } from 'antd-mobile';
 
-import { connect } from 'react-redux'
 
 import styles from './index.module.scss'
 import handleData from './handleData'
 
+import baiduMap from '../../utils/baiduMap'
 
 
 class SelectCity extends React.Component {
@@ -15,15 +15,16 @@ class SelectCity extends React.Component {
     }
     componentDidMount() {
         //获取城市列表
-        handleData(this.props.city).then(res => {
-            this.setState({ citylist: res })
+        baiduMap().then(ress => {
+            handleData(ress.address.city).then(res => {
+                this.setState({ citylist: res })
+            })
         })
+       
     }
     render() {
         const { history } = this.props
         const { citylist } = this.state
-        console.log(citylist);
-        
         return (
             <div className={styles.SelectCity}>
                 <NavBar
@@ -31,11 +32,11 @@ class SelectCity extends React.Component {
                     icon={<Icon type="left" />}
                     onLeftClick={() => history.goBack()}
                 >选择城市</NavBar>
-                <div>
+                <div className={styles.city_parent}>
                     {
                         citylist.map((item, index) => {
-                            return <div>
-                                <div  className={styles.title_style} key={index}>{item.title}</div>
+                            return <div  key={index}>
+                                <div  className={styles.title_style}>{item.title}</div>
                                {
                                     item.children.map((child, childindex) => {
                                       return <div key={childindex} className={styles.item_style} >{child.city}</div>
@@ -50,11 +51,6 @@ class SelectCity extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        city: state.city.citylist.city
-    }
-}
 
 
-export default connect(mapStateToProps)(SelectCity);
+export default SelectCity;
