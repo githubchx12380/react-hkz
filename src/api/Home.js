@@ -22,3 +22,17 @@ export const get_newsData = () => {
         url:'/home/news?area=AREA%7C88cff55c-aaa4-e2e0'
     })
 }
+
+//获取城市数据
+export const get_citylist = () => {
+    return request({
+        url:'/area/city?level=1'
+    })
+}
+
+//热门城市
+export const get_hot = () => {
+    return request({
+        url:'/area/hot'
+    })
+}
