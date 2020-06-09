@@ -14,7 +14,8 @@ import { List } from 'react-virtualized'
 class SelectCity extends React.Component {
     state = {
         citylist: [],
-        letter:[]
+        letter:[],
+        currentIndex:0
     }
     rowRenderer = ({key, index, style}) => {
         const { citylist } = this.state
@@ -43,11 +44,14 @@ class SelectCity extends React.Component {
                 this.setState({ citylist: res,letter:letter })
             })
         })
-       
+    }
+    //滚动高度监听,获取下标
+    handleTopIndex({ startIndex }) {
+        this.setState({currentIndex:startIndex})
     }
     render() {
         const { history } = this.props
-        const { citylist,letter } = this.state
+        const { citylist,letter,currentIndex } = this.state
         return (
             <div className={styles.SelectCity}>
                 <NavBar
@@ -56,6 +60,9 @@ class SelectCity extends React.Component {
                     onLeftClick={() => history.goBack()}
                 >选择城市</NavBar>
                 <List
+                    onRowsRendered={this.handleTopIndex.bind(this)}
+                    scrollToIndex={currentIndex}
+                    scrollToAlignment={'start'}
                     width={window.screen.width}
                     height={window.screen.height}
                     rowCount={citylist.length}
@@ -66,7 +73,9 @@ class SelectCity extends React.Component {
                     <ul>
                         {
                             letter.map((item,index) => (
-                                <li key={index}>{item}</li>
+                                <li key={index} onClick={() => this.setState({currentIndex:index})}>
+                                    <span className={currentIndex === index ? styles.active_color : ''}>{item}</span>
+                                </li>
                             ))
                         }
                     </ul>

@@ -35,6 +35,20 @@
             flex: 1;
             list-style:none; 
             color: #555;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .active_color{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #21b97a;
+                border-radius: 50%;
+                width: 15px;
+                height: 15px;
+                color: white;
+            }
         }
     }
 }
