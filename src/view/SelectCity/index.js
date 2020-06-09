@@ -28,12 +28,12 @@ class SelectCity extends React.Component {
             }
           </div>
         );
-      }
-      rowHeight = ({ index }) => {
-          const { citylist } = this.state
-          let height = citylist[index].children.length * 40 + 45
-          return height
-      }
+    }
+    rowHeight = ({ index }) => {
+        const { citylist } = this.state
+        let height = citylist[index].children.length * 40 + 45
+        return height
+    }
     componentDidMount() {
         //获取城市列表
         baiduMap().then(ress => {
