@@ -12,6 +12,10 @@ import { List } from 'react-virtualized'
 
 
 class SelectCity extends React.Component {
+    constructor() {
+        super()
+        this.refCom = React.createRef()
+    }
     state = {
         citylist: [],
         letter:[],
@@ -32,21 +36,28 @@ class SelectCity extends React.Component {
     }
     rowHeight = ({ index }) => {
         const { citylist } = this.state
-        let height = citylist[index].children.length * 40 + 45
+        let height = citylist[index].children.length * 41 + 45
         return height
     }
+    //改变索引,更换样式
+     handleCurrentIndex(currentIndex) {
+        this.setState({currentIndex})
+        this.refCom.current.scrollToRow(currentIndex);
+    }
+    //获取城市列表
     componentDidMount() {
-        //获取城市列表
         baiduMap().then(ress => {
             handleData(ress.address.city).then(res => {
                 const letter = res.map(v => v.title)
                 letter.splice(0,2,'#','热')
                 this.setState({ citylist: res,letter:letter })
+                this.refCom.current.measureAllRows(); 
             })
-        })
+        })        
     }
     //滚动高度监听,获取下标
     handleTopIndex({ startIndex }) {
+        if(startIndex === this.state.currentIndex) return
         this.setState({currentIndex:startIndex})
     }
     render() {
@@ -55,14 +66,16 @@ class SelectCity extends React.Component {
         return (
             <div className={styles.SelectCity}>
                 <NavBar
+                    className={styles.nav_bar}
                     mode="light"
                     icon={<Icon type="left" />}
                     onLeftClick={() => history.goBack()}
                 >选择城市</NavBar>
                 <List
+                    ref={this.refCom}
                     onRowsRendered={this.handleTopIndex.bind(this)}
                     scrollToIndex={currentIndex}
-                    scrollToAlignment={'start'}
+                    scrollToAlignment='start'
                     width={window.screen.width}
                     height={window.screen.height}
                     rowCount={citylist.length}
@@ -73,7 +86,7 @@ class SelectCity extends React.Component {
                     <ul>
                         {
                             letter.map((item,index) => (
-                                <li key={index} onClick={() => this.setState({currentIndex:index})}>
+                                <li key={index} onClick={() => this.handleCurrentIndex(index)}>
                                     <span className={currentIndex === index ? styles.active_color : ''}>{item}</span>
                                 </li>
                             ))

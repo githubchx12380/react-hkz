@@ -1,5 +1,7 @@
 @import '../../styles/function.scss';
 .SelectCity{
+    margin-top: 45px;
+
     :global{
         .am-navbar-light{
             background-color: #eee;
@@ -51,4 +53,11 @@
             }
         }
     }
+}
+.nav_bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
