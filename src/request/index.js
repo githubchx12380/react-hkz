@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Toast} from 'antd-mobile';
 const request = axios.create({
-    baseURL:'http://157.122.54.189:9060'
+    baseURL:'https://api-haoke-web.itheima.net',
+    // baseURL:'http://157.122.54.189:9060'
 })
 
 let num = 0

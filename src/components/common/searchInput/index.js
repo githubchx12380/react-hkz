@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 class SearchInput extends React.Component {
     render() {
         const { city } = this.props
+        const { history } = this.props
         return (
                 <div className={styles.search_input}>
                     <div className={styles.search_left} onClick={() => this.props.history.push('/citylist')}>
@@ -17,7 +18,7 @@ class SearchInput extends React.Component {
                         <i className="iconfont icon-seach"></i>
                         <div>请输入小区或地址</div>
                     </div>
-                    <div className={styles.search_right}>
+                    <div className={styles.search_right} onClick={() => history.push('/mapfound')}>
                         <i className="iconfont icon-map"></i>
                     </div>
                 </div>
