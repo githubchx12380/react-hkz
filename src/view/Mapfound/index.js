@@ -10,13 +10,40 @@ import { map_city,map_houseinfo } from '../../api/Map'
 
 let BMap = window.BMap
 
+let map;
 class MapFound extends Component {
     state = {  }
+    handlehouseRender = async (id,city) => {
+        setTimeout(() => {
+            map.clearOverlays()
+        })
+        
+        const houseInfo = (await map_houseinfo(id)).data.body
+        
+        houseInfo.forEach(item => {
+           
+                let opts = {
+                    position:new BMap.Point(item.coord.longitude,item.coord.latitude),
+                    offset: new BMap.Size(-50,Math.floor(Math.random() * 10) + 1)
+                }
+                const label = new BMap.Label(`<div class="map_label"><span>${item.label}</span>${item.count}套<span></span></div>`,opts)
+                label.setStyle({
+                    backgroundColor:'none',
+                    border:'none'
+                })
+                
+                map.addOverlay(label)
+                label.addEventListener('click', () => {
+                    this.handlehouseRender(item.value)
+                    map.zoomIn()
+                })
+                
+        })
+    }
     async componentDidMount() {
        const { city } = this.props
-       var map = new BMap.Map("map_container");          // 创建地图实例  
-       var point = map.centerAndZoom(city)
-       map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别 
+       map = new BMap.Map("map_container");          // 创建地图实例  
+       map.centerAndZoom(city)
        map.addControl(new BMap.NavigationControl());    
        setTimeout(() => {
         map.addControl(new BMap.ScaleControl());    
@@ -25,23 +52,11 @@ class MapFound extends Component {
        map.addControl(new BMap.MapTypeControl()); 
 
        const id = (await map_city(city)).data.body.value
-       const houseInfo = (await map_houseinfo(id)).data.body
-       console.log(houseInfo);
-       
-       houseInfo.forEach(item => {
-            let opts = {
-                position:new BMap.Point(item.coord.longitude,item.coord.latitude)
-            }
-            const label = new BMap.Label(`<div class="map_label"><span>${item.label}</span>${item.count}套<span></span></div>`,opts)
-            label.setStyle({
-                backgroundColor:'none',
-                border:'none'
-            })
-            map.addOverlay(label)
-       })
+        this.handlehouseRender(id,city)
        
 
     }
+   
     render() { 
         return ( 
             <div className={styles.map_box}>

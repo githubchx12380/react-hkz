@@ -8,7 +8,7 @@ const request = axios.create({
 let num = 0
 request.interceptors.request.use(function (config) {
     num++
-    Toast.loading('正在加载中..',3)
+    Toast.loading('正在加载中..',0)
     return config;
   }, function (error) {
     return Promise.reject(error);
