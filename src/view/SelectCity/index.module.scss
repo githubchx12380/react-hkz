@@ -1,7 +1,6 @@
 @import '../../styles/function.scss';
 .SelectCity{
-    margin-top: 45px;
-
+    margin-top: 45px;;
     :global{
         .am-navbar-light{
             background-color: #eee;
@@ -9,13 +8,15 @@
     }
     .city_parent{
         .title_style{
-            line-height: 45px;
+            line-height: 40px;
+            height: 40px;
             padding: 0 vw(15);
             color: #aaa;
         }
         .item_style{
             color: black;
             line-height: 40px;
+            height: 40px;
             border-bottom:1px solid #ddd;
             padding: 0 vw(15);
         }
