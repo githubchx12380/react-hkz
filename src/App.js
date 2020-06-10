@@ -15,14 +15,13 @@ import baiduMap from './utils/baiduMap'
 
 class App extends React.Component {
   componentDidMount() {
-    baiduMap().then(res => {
-      this.props.handleCity(res.address.city)
-    })
+    this.props.handleCity()
   }
   render() {    
     return (
      <div className="App">
-       <HashRouter>
+       {
+         this.props.city && <HashRouter>
          <Switch>
            <Route exact path="/">
               <Redirect to="/home">
@@ -34,6 +33,7 @@ class App extends React.Component {
            <Route exact component={NotPage}></Route>
          </Switch>
        </HashRouter>
+       }
      </div>
     )
   }
@@ -44,15 +44,15 @@ const mapStateToProps = (state) => {
     city:state.city.citylist.city
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return{
-    handleCity(value) {
-      let action = {
-        type:'add_city',
-        value:value
-      }
-      dispatch(action)
+const mapDispatchToProps = (dispatch) => ({
+    handleCity:() => {
+      baiduMap().then(res => {
+        let action = {
+          type:'add_city',
+          value:res.address.city
+        }
+        dispatch(action)
+      })
     }
-  }
-}
+})
 export default connect(mapStateToProps,mapDispatchToProps)(App);

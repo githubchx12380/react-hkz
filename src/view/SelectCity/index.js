@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NavBar, Icon } from 'antd-mobile';
+import { NavBar, Icon, Toast } from 'antd-mobile';
 
 
 import styles from './index.module.scss'
@@ -12,7 +12,6 @@ import baiduMap from '../../utils/baiduMap'
 
 import { List } from 'react-virtualized'
 
-import { Toast } from 'antd-mobile'
 
 class SelectCity extends React.Component {
     constructor() {
@@ -61,26 +60,24 @@ class SelectCity extends React.Component {
     }
     //获取城市列表
     componentDidMount() {
-        baiduMap().then(ress => {
-            handleData(ress.address.city).then(res => {
+        console.log(this.props);
+        
+        
+            handleData(this.props.city).then(res => {
                 const letter = res.map(v => v.title)
                 letter.splice(0,2,'#','热')
                 this.setState({ citylist: res,letter:letter })
                 this.refCom.current.measureAllRows(); 
-            })
-        })        
+            })     
     }
     //滚动高度监听,获取下标
     handleTopIndex = ({ startIndex }) => {
         if(startIndex === this.state.currentIndex) return
-        
         this.setState({currentIndex:startIndex})
-        
     }
     render() {
         const { history } = this.props
         const { citylist,letter,currentIndex } = this.state
-       
         return (
             <div className={styles.SelectCity}>
                 <NavBar
@@ -115,6 +112,10 @@ class SelectCity extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    city:state.city.citylist.city
+})
+
 const mapDispatchToProps = (dispatch) => {
     return {
         UpdateCity(value){
@@ -122,11 +123,10 @@ const mapDispatchToProps = (dispatch) => {
                 type:'add_city',
                 value
             }
-           
             dispatch(action)
         }
     }
 }
 
 
-export default connect(null,mapDispatchToProps)(SelectCity);
+export default connect(mapStateToProps,mapDispatchToProps)(SelectCity);
