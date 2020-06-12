@@ -50,6 +50,8 @@
                 }
             }
             .houselist_bottom{
+                height: calc(50vh - 45px);
+                overflow: auto;
                 padding: 20px 10px;
             }
     }

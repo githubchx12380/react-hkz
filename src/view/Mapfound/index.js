@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import styles from './index.module.scss'
 
-import { map_city,map_houseinfo } from '../../api/Map'
+import { map_city,map_houseinfo,get_houseList } from '../../api/Map'
 
 import HouseList from '../../components/common/houselist'
 
@@ -15,7 +15,8 @@ let BMap = window.BMap
 let map;
 class MapFound extends Component {
     state = { 
-        ListShow:false
+        ListShow:false,
+        houseList:[]
      }
 
     mapLevel = [
@@ -28,12 +29,10 @@ class MapFound extends Component {
         setTimeout(() => {
             map.clearOverlays()
         })
-        console.log(center,this.mapLevel[this.num].zoom);
         
         map.centerAndZoom(center,this.mapLevel[this.num].zoom)
         const houseInfo = (await map_houseinfo(id)).data.body
         
-
         houseInfo.forEach(item => {
                 const point = new BMap.Point(item.coord.longitude,item.coord.latitude)
                 let opts = {
@@ -48,8 +47,10 @@ class MapFound extends Component {
                 })
                 
                 map.addOverlay(label)
-                label.addEventListener('click', () => {
+                label.addEventListener('click', (e) => {
                     if(this.num === 2) {
+                        this.moveMapviews(e)
+                        this.gethouseList(item.value)
                         this.setState({ListShow:true})
                     }else{
                         this.num++
@@ -57,6 +58,19 @@ class MapFound extends Component {
                     }
                 })
                 
+        })
+    }
+    //移动视图
+    moveMapviews(e) {
+        let x = window.screen.width / 2 - e.changedTouches[0].clientX
+        let y = window.screen.height / 2 / 2 - e.changedTouches[0].clientY
+        map.panBy(x,y)
+    }
+    //获取房屋数据
+    gethouseList = (id) => {
+        get_houseList(id).then(res => {
+            let houseList = res.data.body.list
+            this.setState({houseList})
         })
     }
     async componentDidMount() {
@@ -78,7 +92,7 @@ class MapFound extends Component {
     }
    
     render() { 
-        const { ListShow } = this.state
+        const { ListShow,houseList } = this.state
         return ( 
             <div className={styles.map_box}>
                 <NavBar
@@ -93,7 +107,11 @@ class MapFound extends Component {
                                 <span>更多房源</span>
                             </div>
                             <div className={styles.houselist_bottom}>
-                                <HouseList />
+                                {
+                                    houseList.map((item,index) => (
+                                        <HouseList item={item} key={index} />
+                                    ))
+                                }
                             </div>
                    </div>
                 </div>

@@ -21,3 +21,13 @@ export const map_houseinfo = (id) => {
     })
 }
 
+//获取房屋信息
+export const get_houseList = (id) => {
+    return request({
+        url:'/houses',
+        params:{
+            cityId:id
+        }
+    })
+}
+

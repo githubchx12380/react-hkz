@@ -1,0 +1,33 @@
+.found{
+    height: 100vh;
+    background-color: white;
+    :global{
+        .am-navbar{
+            background-color: #f6f5f6;
+            padding: 5px 0;
+       }
+       .am-navbar-left{
+          flex: 10% 0;
+          color: #9a9a9a;
+          padding-left: 10px;;
+          
+         
+       }
+       .am-navbar-title{
+           flex: 1;
+           >div{
+               width: 90%;
+               font-size: 14px;
+               padding: 0;
+               height: 30px;
+               .icon-map{
+                    color: #02af67;
+                }
+           }
+       } 
+       .am-navbar-right{
+           display: none;
+           
+       }
+    }
+}
