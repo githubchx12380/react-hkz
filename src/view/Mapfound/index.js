@@ -87,19 +87,16 @@ class MapFound extends Component {
                 onLeftClick={() => this.props.history.goBack()}
                 >地图酒店</NavBar>
                 <div className={styles.map_container} id="map_container"></div>
-                {
-                    ListShow &&  <div className={styles.houseList}>
-                                    <div className={styles.house_title}>
-                                        <h4>房屋列表</h4>
-                                        <span>更多房源</span>
-                                    </div>
-                                    <div className={styles.houselist_bottom}>
-                                        <HouseList />
-                                    </div>
-                                </div>
-                }
-               
-            </div>
+                   <div className={`${styles.houseList} ${ListShow ? styles.show : ''}`}>
+                            <div className={styles.house_title}>
+                                <h4>房屋列表</h4>
+                                <span>更多房源</span>
+                            </div>
+                            <div className={styles.houselist_bottom}>
+                                <HouseList />
+                            </div>
+                   </div>
+                </div>
          );
     }
 }
