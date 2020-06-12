@@ -11,13 +11,41 @@
                 height: 70px;
                 width: 70px;
                 border-radius: 50%;
-                background-color:rgba(12,181,106,.9);;
+                background-color:rgba(12,181,106,.9);
                 color: white;
                 border:1px solid #fff;
             }
             .map_rect{
-                background-color:rgba(12,181,106,.9);;
+                background-color:rgba(12,181,106,.9);
+                color: white;
+                padding: 3px 3px;
+                span{
+                    margin: 0 3px;
+                }
             }
         }
+    }
+    .houseList{
+            height: 50vh;
+            position: fixed;
+            background-color: white;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            .house_title{
+                padding: 0 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 45px;
+                width: 100%;
+                background-color: #c0c0c2;
+                span{
+                    font-size: 12px;
+                }
+            }
+            .houselist_bottom{
+                padding: 20px 10px;
+            }
     }
 }

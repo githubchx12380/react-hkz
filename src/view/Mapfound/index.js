@@ -8,17 +8,20 @@ import styles from './index.module.scss'
 
 import { map_city,map_houseinfo } from '../../api/Map'
 
+import HouseList from '../../components/common/houselist'
+
 let BMap = window.BMap
 
 let map;
-let num = 1
 class MapFound extends Component {
-    state = {  }
+    state = { 
+        ListShow:false
+     }
 
     mapLevel = [
         { level: 1, zoom: 10, className: 'map_label' },  // 一级市
         { level: 2, zoom: 14, className: 'map_label' },  // 一级市
-        { level: 3, zoom: 15, className: 'map_rect' },  // 一级市
+        { level: 3, zoom: 16, className: 'map_rect' },  // 一级市
     ];
     num = 0
     handlehouseRender = async (id,center) => {
@@ -47,7 +50,7 @@ class MapFound extends Component {
                 map.addOverlay(label)
                 label.addEventListener('click', () => {
                     if(this.num === 2) {
-
+                        this.setState({ListShow:true})
                     }else{
                         this.num++
                         this.handlehouseRender(item.value,point)
@@ -66,7 +69,9 @@ class MapFound extends Component {
       
        map.addControl(new BMap.OverviewMapControl());    
        map.addControl(new BMap.MapTypeControl()); 
-
+       map.addEventListener('dragstart',() => {
+           this.setState({ListShow:false})
+       })
        const id = (await map_city(city)).data.body.value
        
        this.handlehouseRender(id,city)
@@ -81,6 +86,15 @@ class MapFound extends Component {
                 onLeftClick={() => this.props.history.goBack()}
                 >地图酒店</NavBar>
                 <div className={styles.map_container} id="map_container"></div>
+                <div className={styles.houseList}>
+                    <div className={styles.house_title}>
+                        <h4>房屋列表</h4>
+                        <span>更多房源</span>
+                    </div>
+                    <div className={styles.houselist_bottom}>
+                        <HouseList />
+                    </div>
+                </div>
             </div>
          );
     }

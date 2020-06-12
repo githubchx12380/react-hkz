@@ -1,0 +1,34 @@
+.houselist{
+    display: flex;
+    .house_item_img{
+        height: 80px;
+        width: 106px;
+        background-color: red;
+    }
+    .house_item_info {
+        line-height: 1.5;
+        padding: 0 10px;
+        >span{
+            font-size: 13px;
+            color: #ccc;
+        }
+        .item_icons{
+            span{
+                font-size: 12px;
+                background-color: #e1f5f8;
+                color: #4ac4d1;
+                padding: 2px 5px;
+                margin-right: 5px;
+                border-radius: 2px;
+            }
+        }
+        .item_money{
+            color: red;
+            &::after {
+                content: '元/月' ;
+                font-size: 12px;
+                margin-left: 2px;;
+            }
+        }
+    }
+}
