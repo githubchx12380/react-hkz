@@ -8,7 +8,6 @@ import handleData from './handleData'
 
 import { connect } from 'react-redux'
 
-import baiduMap from '../../utils/baiduMap'
 
 import { List } from 'react-virtualized'
 

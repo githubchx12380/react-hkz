@@ -11,22 +11,34 @@ import { map_city,map_houseinfo } from '../../api/Map'
 let BMap = window.BMap
 
 let map;
+let num = 1
 class MapFound extends Component {
     state = {  }
-    handlehouseRender = async (id,city) => {
+
+    mapLevel = [
+        { level: 1, zoom: 10, className: 'map_label' },  // 一级市
+        { level: 2, zoom: 14, className: 'map_label' },  // 一级市
+        { level: 3, zoom: 15, className: 'map_rect' },  // 一级市
+    ];
+    num = 0
+    handlehouseRender = async (id,center) => {
         setTimeout(() => {
             map.clearOverlays()
         })
+        console.log(center,this.mapLevel[this.num].zoom);
         
+        map.centerAndZoom(center,this.mapLevel[this.num].zoom)
         const houseInfo = (await map_houseinfo(id)).data.body
         
+
         houseInfo.forEach(item => {
-           
+                const point = new BMap.Point(item.coord.longitude,item.coord.latitude)
                 let opts = {
-                    position:new BMap.Point(item.coord.longitude,item.coord.latitude),
+                    position:point,
                     offset: new BMap.Size(-50,Math.floor(Math.random() * 10) + 1)
                 }
-                const label = new BMap.Label(`<div class="map_label"><span>${item.label}</span>${item.count}套<span></span></div>`,opts)
+                // map.centerAndZoom(point,mapLevel[num])
+                const label = new BMap.Label(`<div class="${this.mapLevel[this.num].className}"><span>${item.label}</span>${item.count}套<span></span></div>`,opts)
                 label.setStyle({
                     backgroundColor:'none',
                     border:'none'
@@ -34,8 +46,12 @@ class MapFound extends Component {
                 
                 map.addOverlay(label)
                 label.addEventListener('click', () => {
-                    this.handlehouseRender(item.value)
-                    map.zoomIn()
+                    if(this.num === 2) {
+
+                    }else{
+                        this.num++
+                        this.handlehouseRender(item.value,point)
+                    }
                 })
                 
         })
@@ -43,18 +59,17 @@ class MapFound extends Component {
     async componentDidMount() {
        const { city } = this.props
        map = new BMap.Map("map_container");          // 创建地图实例  
-       map.centerAndZoom(city)
        map.addControl(new BMap.NavigationControl());    
        setTimeout(() => {
-        map.addControl(new BMap.ScaleControl());    
+        map.addControl(new BMap.ScaleControl())
        },1000)
+      
        map.addControl(new BMap.OverviewMapControl());    
        map.addControl(new BMap.MapTypeControl()); 
 
        const id = (await map_city(city)).data.body.value
-        this.handlehouseRender(id,city)
        
-
+       this.handlehouseRender(id,city)
     }
    
     render() { 
