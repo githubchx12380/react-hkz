@@ -1,6 +1,19 @@
 .found{
-    height: 100vh;
     background-color: white;
+    .shade{
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color:rgba(0, 0, 0, 0.5);
+        z-index: 10;
+    }
+    .box_zindex{
+        position: relative;
+        background-color: white;
+        z-index: 11;
+    }
     :global{
         .am-navbar{
             background-color: #f6f5f6;
@@ -30,26 +43,56 @@
            
        }
     }
-    .filter_option{
-        display: flex;
-        padding: 10px 0;
-        border-bottom: 1px solid #ddd;
-        >span{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-            font-size: 16px;
-            i{
-                margin-left: 3px;
-                color: #ccc;
-                font-size: 13px;
-            }
+    .option_box{
+        &.zIndex {
+            position: relative;
+            background-color: white;
+            z-index: 11;
         }
-    }
+         .filter_option{
+                display: flex;
+                padding: 10px 0;
+                border-bottom: 1px solid #ddd;
+                >span{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex: 1;
+                    
+                    font-size: 16px;
+                    &.active{
+                        color:#02af67;
+                        i{
+                            color:#02af67; 
+                        }
+                    }
+                    i{
+                        margin-left: 3px;
+                        color: #ccc;
+                        font-size: 13px;
+                    }
+                }
+            }
+    
+        }
     .filter_content{
         height: 240px;
-        background-color: red;
+    }
+    .filter_content_right{
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 11;
+        background-color: white;
+        width: 70%;
+        .filter_btn{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
     }
     .filter_btn{
         display: flex;

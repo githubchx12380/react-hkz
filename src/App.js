@@ -6,6 +6,7 @@ import { HashRouter,Switch,Route,Redirect }  from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
+
 import Home from '../src/view/Home'
 import SelectCity from '../src/view/SelectCity'
 import MapFound from '../src/view/Mapfound'
@@ -15,13 +16,13 @@ import baiduMap from './utils/baiduMap'
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.handleCity()
+      this.props.handleCity()
   }
   render() {    
     return (
      <div className="App">
        {
-         this.props.city && <HashRouter>
+         (this.props.city) && <HashRouter>
          <Switch>
            <Route exact path="/">
               <Redirect to="/home">
@@ -41,7 +42,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    city:state.city.citylist.city
+    city:state.city.citylist.city,
   }
 }
 const mapDispatchToProps = (dispatch) => ({
@@ -53,6 +54,6 @@ const mapDispatchToProps = (dispatch) => ({
         }
         dispatch(action)
       })
-    }
+    },
 })
 export default connect(mapStateToProps,mapDispatchToProps)(App);
