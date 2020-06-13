@@ -120,11 +120,13 @@
         overflow: auto;
         padding: 10px 20px;
         .right_option_banner{
+            border-bottom: 1px solid #e5e5e5;
             .right_title{
+                padding-top: 15px;
                 font-size: 17px;
             }
             .right_item_box{
-                padding: 20px 0;
+                padding: 15px 0;
                 display: flex;
                 flex-wrap: wrap;
                 .right_item {
