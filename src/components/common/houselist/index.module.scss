@@ -2,11 +2,11 @@
     display: flex;
     .house_item_img{
         margin: 5px 0;
-        height: 80px;
-        width: 106px;
+       
         img{
-            width: 100%;
-            height: 100%;
+            height: 80px;
+            width: 106px;
+            border-radius: 10px;
         }
     }
     .house_item_info {

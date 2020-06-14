@@ -151,4 +151,20 @@
             }
         }
     }
+    .list_box{
+        height: calc(100vh - 45 - 40 - 50);
+        overflow: auto;
+        :global{
+            .ReactVirtualized__Grid{
+                padding: 0 10px;
+            }
+        }
+        .renderlistClass{
+            display: flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-bottom: 1px solid #ddd;
+            height: 104px;
+        }
+    }
 }

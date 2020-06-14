@@ -18,7 +18,7 @@ class HouseList extends React.Component {
                 </div>
                 <div className={styles.house_item_info}>
                     <h4 className={styles.item_title}>{item.title}</h4>
-        <span className={styles.item_desc}>{item.desc}</span>
+                    <span className={styles.item_desc}>{item.desc}</span>
                     <div className={styles.item_icons}>
                         {
                             item.tags.map((item,index) => <span key={index}>{item}</span>)

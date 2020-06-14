@@ -9,3 +9,11 @@ export const get_option = (id) => {
         }
     })
 }
+
+//筛选房源
+export const filter_house = (params) => {
+    return request({
+        url:'/houses',
+        params
+    })
+}

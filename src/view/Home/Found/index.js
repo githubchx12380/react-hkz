@@ -3,9 +3,10 @@ import { NavBar, Icon,PickerView } from 'antd-mobile';
 import SearchInput from '../../../components/common/searchInput'
 import { connect } from 'react-redux'
 import styles from './index.module.scss'
-import { get_option } from '../../../api/Found'
+import { get_option,filter_house } from '../../../api/Found'
 import { map_city } from '../../../api/Map'
-
+import { List } from 'react-virtualized'
+import Houselist from '../../../components/common/houselist'
 class Found extends React.Component {
     state = {
         filterOption: [
@@ -16,8 +17,17 @@ class Found extends React.Component {
         ],
         currentIndex: -1,
         filter_option:[],
-        filter_succeeData:[[],[],[],[]]
+        filter_succeeData:[[],[],[],[]],
+        renderhouse:[]
     }
+    pageSize = 20
+    pages = {
+        start:1,
+        end:this.pageSize
+    }
+    cityId = ''
+    result = {}
+    falg = false
     componentDidMount() {
         this.getoptionData()
     }
@@ -25,6 +35,7 @@ class Found extends React.Component {
       let filter_option = []
       const { city } = this.props
       const cityId = (await map_city(city)).data.body.value
+      this.cityId = cityId
       const res = (await get_option(cityId)).data.body
       
       filter_option[0] = [
@@ -44,6 +55,7 @@ class Found extends React.Component {
       ]
 
       this.setState({filter_option})
+      this.emitRequest()
       
     }
     onChange = (value) => {
@@ -62,14 +74,19 @@ class Found extends React.Component {
             price:filter_succeeData[2][0],
             more:filter_succeeData[3].join(',')
         }
-        this.emitRequest(result)
-    }
-    emitRequest = (result) => {
         Object.keys(result).forEach(key => {
             (key === 'undefined' || ['null',undefined,''].includes(result[key])) && delete result[key]
         })
-        console.log(result);
-        /* -------------------------------- */
+        this.result = result
+        this.emitRequest()
+        this.setState({currentIndex:-1})
+    }
+    emitRequest = async () => {
+        this.falg = true
+        //发送请求筛选数据
+        const res = await filter_house({cityId:this.cityId,...this.result,...this.pages})
+        this.setState({renderhouse:[...res.data.body.list,...this.state.renderhouse]})
+        this.falg = false
     }
     right_filter = (value) => {
         const { filter_succeeData,currentIndex } = this.state
@@ -80,6 +97,26 @@ class Found extends React.Component {
             filter_more.splice(filter_more.indexOf(value),1)
         }
         this.setState({filter_succeeData})
+    }
+    rowRenderer = ({key,index,style}) => {
+        return (
+        <div key={key} style={style} className={styles.renderlistClass}><Houselist item={this.state.renderhouse[index]} /></div>
+        )
+    }
+    onScroll = ({scrollHeight,clientHeight,scrollTop}) => {
+        const arrBottom = scrollHeight - clientHeight - scrollTop
+        if(arrBottom > 60 || scrollHeight === 0 || this.falg) {
+            return
+        } 
+        this.pages.start += 20
+        this.pages.end += 20
+        this.emitRequest()
+    }
+    clearFilter = () => {
+        const { filter_succeeData } = this.state
+        filter_succeeData[3] = []
+        this.setState({filter_succeeData,currentIndex:-1})
+        
     }
     handleDomContent = () => {
         const { currentIndex,filter_option,filterOption,filter_succeeData } = this.state
@@ -127,7 +164,7 @@ class Found extends React.Component {
     }
     render() {
         const { city, history } = this.props
-        const { filterOption, currentIndex } = this.state
+        const { filterOption, currentIndex,renderhouse } = this.state
         return (
             <div className={styles.found} >
                 {
@@ -166,7 +203,7 @@ class Found extends React.Component {
                                     {this.handleDomContent()}
                                 </div>
                                 <div className={styles.filter_btn}>
-                                    <div>取消</div>
+                                    <div onClick={() => this.setState({currentIndex:-1})}>取消</div>
                                     <div onClick={this.ChangeRequestData}>确定</div>
                                 </div>
                         </div> : 
@@ -174,7 +211,7 @@ class Found extends React.Component {
                                 <div className={styles.filter_content_right}>
                                     {this.handleDomContent()}
                                     <div className={styles.filter_btn}>
-                                        <div>清除</div>
+                                        <div onClick={this.clearFilter}>清除</div>
                                         <div onClick={this.ChangeRequestData}>确定</div>
                                     </div>
                                 </div>
@@ -182,6 +219,17 @@ class Found extends React.Component {
                         </div>
                     )
                 }
+                <div className={styles.list_box}>
+                    <List 
+                        width={window.screen.width}
+                        height={window.screen.height - 45 - 40 -50}
+                        rowCount={renderhouse.length}
+                        rowHeight={118}
+                        rowRenderer={this.rowRenderer}
+                        onScroll={this.onScroll}
+                    />
+                </div>
+                
 
             </div>
         );
