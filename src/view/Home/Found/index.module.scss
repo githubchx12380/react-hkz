@@ -141,7 +141,13 @@
                     width: 70px;
                     height: 32px;
                     border: 1px solid rgb(221, 221, 221);
+                    &.active{
+                        color: #02af67;
+                        border-color: #02af67;
+                        background-color: #defaef;
+                    }
                 }
+               
             }
         }
     }

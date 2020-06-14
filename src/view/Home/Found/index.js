@@ -15,7 +15,8 @@ class Found extends React.Component {
             { id: 4, title: '筛选' },
         ],
         currentIndex: -1,
-        filter_option:[]
+        filter_option:[],
+        filter_succeeData:[[],[],[],[]]
     }
     componentDidMount() {
         this.getoptionData()
@@ -45,15 +46,50 @@ class Found extends React.Component {
       this.setState({filter_option})
       
     }
+    onChange = (value) => {
+      const { filter_succeeData,currentIndex } = this.state
+      filter_succeeData[currentIndex] = value
+      this.setState({ filter_succeeData })
+    }
+    ChangeRequestData = () => {
+        let { filter_succeeData } = this.state
+        let key = filter_succeeData[0]
+        let result = {}
+       
+        result = {
+            [key[0]]:['null',undefined,''].includes(key[2]) ?  key[1] : key[2],
+            rentType:filter_succeeData[1][0],
+            price:filter_succeeData[2][0],
+            more:filter_succeeData[3].join(',')
+        }
+        this.emitRequest(result)
+    }
+    emitRequest = (result) => {
+        Object.keys(result).forEach(key => {
+            (key === 'undefined' || ['null',undefined,''].includes(result[key])) && delete result[key]
+        })
+        console.log(result);
+        /* -------------------------------- */
+    }
+    right_filter = (value) => {
+        const { filter_succeeData,currentIndex } = this.state
+        let filter_more = filter_succeeData[currentIndex]
+        if(filter_more.indexOf(value) === -1) {
+            filter_more.push(value)
+        }else{
+            filter_more.splice(filter_more.indexOf(value),1)
+        }
+        this.setState({filter_succeeData})
+    }
     handleDomContent = () => {
-        const { currentIndex,filter_option,filterOption } = this.state
+        const { currentIndex,filter_option,filterOption,filter_succeeData } = this.state
         if (currentIndex === 0 || currentIndex === 1 || currentIndex === 2) {
             return (
                 <div>
                     <PickerView
                         onChange={this.onChange}
                         onScrollChange={this.onScrollChange}
-                        value={this.state.value}
+                        value={filter_succeeData[currentIndex]}
                         data={filter_option[currentIndex]}
                         cols={filterOption[currentIndex].cols}
                     />
@@ -69,7 +105,12 @@ class Found extends React.Component {
                         <div className={styles.right_item_box}>
                           {
                             item.children.map((v,i) => (
-                            <div key={i} className={styles.right_item}>{v.label}</div>
+                            <div key={i} onClick={() => this.right_filter(v.value)} className={
+                                [
+                                    styles.right_item,
+                                    filter_succeeData[3].indexOf(v.value) !== -1 ? styles.active : ''
+                                ].join(' ')
+                            }>{v.label}</div>
                             ))
                           }
                         </div>
@@ -126,7 +167,7 @@ class Found extends React.Component {
                                 </div>
                                 <div className={styles.filter_btn}>
                                     <div>取消</div>
-                                    <div>确定</div>
+                                    <div onClick={this.ChangeRequestData}>确定</div>
                                 </div>
                         </div> : 
                         <div className={styles.box_zindex}>
@@ -134,7 +175,7 @@ class Found extends React.Component {
                                     {this.handleDomContent()}
                                     <div className={styles.filter_btn}>
                                         <div>清除</div>
-                                        <div>确定</div>
+                                        <div onClick={this.ChangeRequestData}>确定</div>
                                     </div>
                                 </div>
                                 
